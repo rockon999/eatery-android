@@ -116,10 +116,8 @@ public class MainActivity extends AppCompatActivity implements MainListAdapter.L
                         startActivity(intent);
                         break;
                     case R.id.action_brb:
-                        Snackbar snackbar = Snackbar.make(findViewById(R.id.main_activity), "If you would like" +
-                                        " to see this feature, consider joining our Android dev team!",
-                                Snackbar.LENGTH_LONG);
-                        snackbar.setAction("Apply", new SnackBarListener());
+                        Snackbar snackbar = Snackbar.make(findViewById(R.id.main_activity), "Coming Soon",
+                                Snackbar.LENGTH_SHORT);
                         snackbar.show();
 
                         break;

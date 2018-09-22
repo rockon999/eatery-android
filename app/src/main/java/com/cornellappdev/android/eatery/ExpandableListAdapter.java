@@ -189,7 +189,6 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
 
         if(str == null)
         {
-            System.out.println("dingdongditch");
             tv.setText("No menu available");
         }
         // If str == 3, then string is a category

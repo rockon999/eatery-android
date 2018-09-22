@@ -110,10 +110,8 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                         startActivity(intent);
                         break;
                     case R.id.action_brb:
-                        Snackbar snackbar = Snackbar.make(findViewById(R.id.maps_activity), "If you would like" +
-                                        " to see this feature, consider joining our Android dev team!",
-                                Snackbar.LENGTH_LONG);
-                        snackbar.setAction("Apply", new SnackBarListener());
+                        Snackbar snackbar = Snackbar.make(findViewById(R.id.maps_activity), "Coming Soon",
+                                Snackbar.LENGTH_SHORT);
                         snackbar.show();
 
                         break;
