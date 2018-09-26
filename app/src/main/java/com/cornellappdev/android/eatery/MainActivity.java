@@ -93,43 +93,7 @@ public class MainActivity extends AppCompatActivity implements MainListAdapter.L
         splash = findViewById(R.id.relative_layout_splash);
         bnv.setVisibility(View.GONE);
         getSupportActionBar().hide();
-
-        ConnectivityManager cm =
-                (ConnectivityManager)getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
-
-        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
-        boolean isConnected = activeNetwork != null &&
-                activeNetwork.isConnectedOrConnecting();
-
-        if (!isConnected) {
-            cafeList = new ArrayList<>();
-            if (JsonUtilities.parseJson(dbHelper.getLastRow(), getApplicationContext()) != null) {
-                cafeList = JsonUtilities.parseJson(dbHelper.getLastRow(), getApplicationContext());
-            }
-            Collections.sort(cafeList);
-            currentList = cafeList;
-            searchList = cafeList;
-            splash.setVisibility(View.GONE);
-            bnv.setVisibility(View.VISIBLE);
-            getSupportActionBar().show();
-            mRecyclerView.setHasFixedSize(true);
-            LinearLayoutManager layoutManager =
-                    new LinearLayoutManager(getApplicationContext(), LinearLayout.VERTICAL, false);
-            mRecyclerView.setLayoutManager(layoutManager);
-            listAdapter =
-                    new MainListAdapter(getApplicationContext(),
-                            MainActivity.this,
-                            cafeList.size(),
-                            cafeList);
-            mRecyclerView.setAdapter(listAdapter);
-            mRecyclerView.setVisibility(View.VISIBLE);
-            progressBar.setVisibility(View.GONE);
-        }
-        else {
-
-            new ProcessJson().execute("");
-        }
-
+        new ProcessJson().execute("");
         // Add functionality to bottom nav bar
         bnv.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -429,15 +393,35 @@ public class MainActivity extends AppCompatActivity implements MainListAdapter.L
 
         @Override
         protected ArrayList<CafeteriaModel> doInBackground(String... params) {
-            String json = NetworkUtilities.getJson();
-            dbHelper.addData(json);
 
-            cafeList = JsonUtilities.parseJson(json, getApplicationContext());
-            currentList = cafeList;
-            searchList = cafeList;
-            Collections.sort(cafeList);
+            ConnectivityManager cm =
+                    (ConnectivityManager)getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
 
-            return cafeList;
+            NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+
+            boolean isConnected = activeNetwork != null && activeNetwork.isConnectedOrConnecting();
+
+            if (!isConnected) {
+                cafeList = new ArrayList<>();
+                if (JsonUtilities.parseJson(dbHelper.getLastRow(), getApplicationContext()) != null) {
+                    cafeList = JsonUtilities.parseJson(dbHelper.getLastRow(), getApplicationContext());
+                }
+                currentList = cafeList;
+                searchList = cafeList;
+                Collections.sort(cafeList);
+                return cafeList;
+
+            }
+            else{
+                String json = NetworkUtilities.getJson();
+                dbHelper.addData(json);
+
+                cafeList = JsonUtilities.parseJson(json, getApplicationContext());
+                currentList = cafeList;
+                searchList = cafeList;
+                Collections.sort(cafeList);
+                return cafeList;
+            }
         }
 
         @Override
