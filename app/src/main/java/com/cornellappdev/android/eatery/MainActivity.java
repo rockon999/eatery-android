@@ -1,8 +1,11 @@
 package com.cornellappdev.android.eatery;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -91,8 +94,14 @@ public class MainActivity extends AppCompatActivity implements MainListAdapter.L
         bnv.setVisibility(View.GONE);
         getSupportActionBar().hide();
 
-        ConnectionUtilities con = new ConnectionUtilities(this);
-        if (!con.isNetworkAvailable()) {
+        ConnectivityManager cm =
+                (ConnectivityManager)getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+        boolean isConnected = activeNetwork != null &&
+                activeNetwork.isConnectedOrConnecting();
+
+        if (!isConnected) {
             cafeList = new ArrayList<>();
             if (JsonUtilities.parseJson(dbHelper.getLastRow(), getApplicationContext()) != null) {
                 cafeList = JsonUtilities.parseJson(dbHelper.getLastRow(), getApplicationContext());
@@ -100,6 +109,9 @@ public class MainActivity extends AppCompatActivity implements MainListAdapter.L
             Collections.sort(cafeList);
             currentList = cafeList;
             searchList = cafeList;
+            splash.setVisibility(View.GONE);
+            bnv.setVisibility(View.VISIBLE);
+            getSupportActionBar().show();
             mRecyclerView.setHasFixedSize(true);
             LinearLayoutManager layoutManager =
                     new LinearLayoutManager(getApplicationContext(), LinearLayout.VERTICAL, false);
@@ -110,8 +122,11 @@ public class MainActivity extends AppCompatActivity implements MainListAdapter.L
                             cafeList.size(),
                             cafeList);
             mRecyclerView.setAdapter(listAdapter);
+            mRecyclerView.setVisibility(View.VISIBLE);
+            progressBar.setVisibility(View.GONE);
         }
         else {
+
             new ProcessJson().execute("");
         }
 
@@ -421,6 +436,7 @@ public class MainActivity extends AppCompatActivity implements MainListAdapter.L
             currentList = cafeList;
             searchList = cafeList;
             Collections.sort(cafeList);
+
             return cafeList;
         }
 
