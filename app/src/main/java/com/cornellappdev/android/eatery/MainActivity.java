@@ -86,19 +86,18 @@ public class MainActivity extends AppCompatActivity implements MainListAdapter.L
             Collections.sort(cafeList);
             currentList = cafeList;
             searchList = cafeList;
-
             mRecyclerView.setHasFixedSize(true);
             LinearLayoutManager layoutManager =
                     new LinearLayoutManager(getApplicationContext(), LinearLayout.VERTICAL, false);
             mRecyclerView.setLayoutManager(layoutManager);
-
             listAdapter =
                     new MainListAdapter(getApplicationContext(),
                             MainActivity.this,
                             cafeList.size(),
                             cafeList);
             mRecyclerView.setAdapter(listAdapter);
-        } else {
+        }
+        else {
             new ProcessJson().execute("");
         }
 
