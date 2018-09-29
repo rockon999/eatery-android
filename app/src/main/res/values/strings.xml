@@ -4,5 +4,7 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_maps">Map</string>
     <string name="title_activity_main">Eateries</string>
+    <string name="appdev_website"><a href="https://www.cornellappdev.com/">Visit Our Website</a></string>
+    <string name="google_form"><a href="https://goo.gl/forms/g8v6CbN2lrQtY4tH2">Send Feedback</a></string>
 
 </resources>
