@@ -1,3 +1,8 @@
+.idea/*
+.settings/*
+app/.settings/*
+.project
+.classpath
 *.iml
 .gradle
 /local.properties
