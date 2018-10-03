@@ -1,6 +1,7 @@
 .idea/*
 .settings/*
 app/.settings/*
+app/bin/*
 .project
 .classpath
 *.iml
